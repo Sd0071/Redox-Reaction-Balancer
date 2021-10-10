@@ -1,4 +1,4 @@
-# """ import numpy as np
+import numpy as np
 
 def balance_acid(reagent,product):
     # Balancing Central Atom START
@@ -60,29 +60,31 @@ def balance_base(reagent,product):
 
     #Balancing Oxygen Atom Start
     water_added= reagent['oxygen'] - product['oxygen']
+    hydroxide_ion_added = 2*abs(water_added)
     # print(water_added)
-    oxygen_added=abs(water_added)
-    hydrogen_added=abs(water_added)*2
+    oxygen_added=abs(water_added)-hydroxide_ion_added
+    hydrogen_added=abs(water_added)*2-hydroxide_ion_added
     if water_added<0:
-        reagent['oxygen']+=oxygen_added
-        reagent['hydrogen']+=hydrogen_added
-    else:
         product['oxygen']+=oxygen_added
         product['hydrogen']+=hydrogen_added
-
+    else:
+        reagent['oxygen']+=oxygen_added
+        reagent['hydrogen']+=hydrogen_added
+    
+    return (reagent,product)
     #Balancing Oxygen Atom End
     # print(reagent,product)
 
     #Balancing Hydrogen Atom Start
-    hydrogen_ion_added= reagent['hydrogen']-product['hydrogen']
-    # print(hydrogen_ion_added)
-    hydrogen_added=abs(hydrogen_ion_added)
-    charge_added=abs(hydrogen_ion_added)
-    if hydrogen_ion_added<0:
-        reagent['hydrogen']+=hydrogen_added
-        reagent['charge']+=charge_added
-    else:
-        product['hydrogen']+=hydrogen_added
-        product['charge']+=charge_added
+    # hydroxide_ion_added= reagent['hydrogen']-product['hydrogen']
+    # # print(hydroxide_ion_added)
+    # hydrogen_added=abs(hydroxide_ion_added)
+    # charge_added=abs(hydroxide_ion_added)
+    # if hydroxide_ion_added<0:
+    #     reagent['hydrogen']+=hydrogen_added
+    #     reagent['charge']+=charge_added
+    # else:
+    #     product['hydrogen']+=hydrogen_added
+    #     product['charge']+=charge_added
 
     #Balancing Oxygen Atom End

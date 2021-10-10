@@ -10,13 +10,13 @@ import half_cell_reaction as hcr
 # reduction_rxn = {'reagent':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':+2}, 'product':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':0}}
 # oxidation_rxn = {'reagent':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':+2}}
 
-reduction_rxn = {'reagent':{'central_atom':1,'oxygen':3,'hydrogen':0,'charge':-1}, 'product':{'central_atom' :1,'oxygen':0,'hydrogen':0,'charge':-1}}
-oxidation_rxn = {'reagent':{'central_atom':1,'oxygen':2,'hydrogen':0,'charge':0}, 'product':{'central_atom':1,'oxygen':4,'hydrogen':0,'charge':-2}}
+reduction_rxn = {'reagent':{'central_atom':4,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom' :1,'oxygen':0,'hydrogen':3,'charge':0}}
+oxidation_rxn = {'reagent':{'central_atom':4,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom':1,'oxygen':2,'hydrogen':2,'charge':-1}}
 
 
 
-(reduction_rxn['reagent'],reduction_rxn['product']) = hcr.balance_acid(reduction_rxn['reagent'],reduction_rxn['product'])
-(oxidation_rxn['reagent'],oxidation_rxn['product']) = hcr.balance_acid(oxidation_rxn['reagent'],oxidation_rxn['product'])
+(reduction_rxn['reagent'],reduction_rxn['product']) = hcr.balance_base(reduction_rxn['reagent'],reduction_rxn['product'])
+(oxidation_rxn['reagent'],oxidation_rxn['product']) = hcr.balance_base(oxidation_rxn['reagent'],oxidation_rxn['product'])
 
 reduction_transferred_electron = int(reduction_rxn['reagent']['charge'] - reduction_rxn['product']['charge'])
 oxidation_transferred_electron = int(oxidation_rxn['product']['charge'] - oxidation_rxn['reagent']['charge'])
