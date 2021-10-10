@@ -10,9 +10,12 @@ import half_cell_reaction as hcr
 # reduction_rxn = {'reagent':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':+2}, 'product':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':0}}
 # oxidation_rxn = {'reagent':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':+2}}
 
-reduction_rxn = {'reagent':{'central_atom':4,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom' :1,'oxygen':0,'hydrogen':3,'charge':0}}
-oxidation_rxn = {'reagent':{'central_atom':4,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom':1,'oxygen':2,'hydrogen':2,'charge':-1}}
+# reduction_rxn = {'reagent':{'central_atom':4,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom' :1,'oxygen':0,'hydrogen':3,'charge':0}}
+# oxidation_rxn = {'reagent':{'central_atom':4,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom':1,'oxygen':2,'hydrogen':2,'charge':-1}}
 
+# Zn + NO3(-) ---> Zn(2+) + NO2
+reduction_rxn = {'reagent':{'central_atom':1,'oxygen':0,'hydrogen':0,'charge':0}, 'product':{'central_atom' :1,'oxygen':0,'hydrogen':0,'charge':+2}}
+oxidation_rxn = {'reagent':{'central_atom':1,'oxygen':3,'hydrogen':0,'charge':-1}, 'product':{'central_atom':1,'oxygen':2,'hydrogen':0,'charge':0}}
 
 
 (reduction_rxn['reagent'],reduction_rxn['product']) = hcr.balance_base(reduction_rxn['reagent'],reduction_rxn['product'])
