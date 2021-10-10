@@ -44,9 +44,7 @@ def balance_acid(reagent,product):
     return (reagent,product)
 
 def balance_base(reagent,product):
-#      MnO4¯ + S2¯ ---> MnS + S
 
-# 8H2O + 2MnO4¯ + 7S2¯ ---> 2MnS + 5S + 16OH¯
     # Balancing Central Atom START
     lcm = np.lcm(reagent['central_atom'], product['central_atom'])
     multiplier = [lcm / reagent['central_atom'], lcm / product['central_atom']]
@@ -64,27 +62,32 @@ def balance_base(reagent,product):
     # print(water_added)
     oxygen_added=abs(water_added)-hydroxide_ion_added
     hydrogen_added=abs(water_added)*2-hydroxide_ion_added
+    charge_added=hydroxide_ion_added
     if water_added<0:
-        product['oxygen']+=oxygen_added
-        product['hydrogen']+=hydrogen_added
+        product['oxygen'] +=oxygen_added
+        product['hydrogen'] +=hydrogen_added
+        product['charge'] -=hydroxide_ion_added
     else:
-        reagent['oxygen']+=oxygen_added
-        reagent['hydrogen']+=hydrogen_added
-    
-    return (reagent,product)
+        reagent['oxygen'] +=oxygen_added
+        reagent['hydrogen'] +=hydrogen_added
+        product['charge'] -=hydroxide_ion_added
+
     #Balancing Oxygen Atom End
     # print(reagent,product)
 
     #Balancing Hydrogen Atom Start
-    # hydroxide_ion_added= reagent['hydrogen']-product['hydrogen']
-    # # print(hydroxide_ion_added)
-    # hydrogen_added=abs(hydroxide_ion_added)
-    # charge_added=abs(hydroxide_ion_added)
-    # if hydroxide_ion_added<0:
-    #     reagent['hydrogen']+=hydrogen_added
-    #     reagent['charge']+=charge_added
-    # else:
-    #     product['hydrogen']+=hydrogen_added
-    #     product['charge']+=charge_added
+    hydroxide_ion_added = reagent['hydrogen']-product['hydrogen']
+    water_added = abs(hydroxide_ion_added)
+    # print(hydroxide_ion_added)
+    hydrogen_added=abs(hydroxide_ion_added)-2*water_added
+    oxygen_added=abs(hydroxide_ion_added)-water_added
+    charge_added=abs(hydroxide_ion_added)
+    if hydroxide_ion_added<0:
+        reagent['hydrogen'] +=hydrogen_added
+        reagent['charge'] -=charge_added
+    else:
+        product['hydrogen'] +=hydrogen_added
+        product['charge'] -=charge_added
 
+    return (reagent,product)
     #Balancing Oxygen Atom End
