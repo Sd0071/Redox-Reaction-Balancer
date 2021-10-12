@@ -75,6 +75,126 @@ class TestBalanceAcidic(unittest.TestCase):
         self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in acidic medium')
         self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in acidic medium')
 
+    # 4: Cu + SO42¯ ---> Cu2+ + SO2
+    def test_4(self):
+        # Reduction Half Reaction
+        # TODO: Reduction Half reaction equation
+        input_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 0, 'charge': -2},
+                               'product': {'central_atom': 1, 'oxygen': 2, 'hydrogen': 0, 'charge': 0}}
+        output_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 4, 'charge': +2},
+                                'product': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 4, 'charge': 0}}
+
+        # Oxidation Half Reaction
+        # TODO: oxidation Half reaction equation
+        input_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': 0},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': 0},
+                                'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+
+        input_reduction_rxn = hcr.balance_acid(input_reduction_rxn)
+        input_oxidation_rxn = hcr.balance_acid(input_oxidation_rxn)
+
+        (input_reduction_rxn, input_oxidation_rxn) = hcr.balance_electron(input_reduction_rxn, input_oxidation_rxn)
+
+        self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in acidic medium')
+        self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in acidic medium')
+
+    # 5: MnO4¯ + CH3OH ---> CH3COOH + Mn2+
+    def test_5(self):
+        # Reduction Half Reaction
+        # TODO: Reduction Half reaction equation
+        input_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 0, 'charge': -1},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+        output_reduction_rxn = {'reagent': {'central_atom': 4, 'oxygen': 16, 'hydrogen': 0, 'charge': 28},
+                                'product': {'central_atom': 4, 'oxygen': 8, 'hydrogen': 0, 'charge': +8}}
+
+        # Oxidation Half Reaction
+        # TODO: oxidation Half reaction equation
+        input_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 1, 'hydrogen': 4, 'charge': 0},
+                               'product': {'central_atom': 2, 'oxygen': 2, 'hydrogen': 4, 'charge': 0}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 10, 'oxygen': 10, 'hydrogen': 40, 'charge': 0},
+                                'product': {'central_atom': 10, 'oxygen': 10, 'hydrogen': 40, 'charge': +20}}
+
+        input_reduction_rxn = hcr.balance_acid(input_reduction_rxn)
+        input_oxidation_rxn = hcr.balance_acid(input_oxidation_rxn)
+
+        (input_reduction_rxn, input_oxidation_rxn) = hcr.balance_electron(input_reduction_rxn, input_oxidation_rxn)
+
+        self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in acidic medium')
+        self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in acidic medium')
+
+    # 6: MnO4¯ + H2O2 ---> Mn2+ + O2
+    def test_6(self):
+        # Reduction Half Reaction
+        # TODO: Reduction Half reaction equation
+        input_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 0, 'charge': -1},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+        output_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 0, 'charge': -1},
+                                'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+
+        # Oxidation Half Reaction
+        # TODO: oxidation Half reaction equation
+        input_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': 0},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': 0},
+                                'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+
+        input_reduction_rxn = hcr.balance_acid(input_reduction_rxn)
+        input_oxidation_rxn = hcr.balance_acid(input_oxidation_rxn)
+
+        (input_reduction_rxn, input_oxidation_rxn) = hcr.balance_electron(input_reduction_rxn, input_oxidation_rxn)
+
+        self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in acidic medium')
+        self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in acidic medium')
+
+    # 7: VO2+ + MnO4¯ ---> V(OH)4+ + Mn2+
+    def test_7(self):
+        # Reduction Half Reaction
+        # TODO: Reduction Half reaction equation
+        input_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 0, 'charge': -1},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+        output_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 0, 'charge': +7},
+                                'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +2}}
+
+        # Oxidation Half Reaction
+        # TODO: oxidation Half reaction equation
+        input_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 1, 'hydrogen': 0, 'charge': +2},
+                               'product': {'central_atom': 1, 'oxygen': 1, 'hydrogen': 1, 'charge': +4}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 5, 'oxygen': 5, 'hydrogen': 0, 'charge': +15},
+                                'product': {'central_atom': 5, 'oxygen': 5, 'hydrogen': 5, 'charge': +20}}
+
+        input_reduction_rxn = hcr.balance_acid(input_reduction_rxn)
+        input_oxidation_rxn = hcr.balance_acid(input_oxidation_rxn)
+
+        (input_reduction_rxn, input_oxidation_rxn) = hcr.balance_electron(input_reduction_rxn, input_oxidation_rxn)
+
+        self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in acidic medium')
+        self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in acidic medium')
+
+    # 8: Cr2O72¯ + Cl¯ ---> Cr3+ + Cl2
+    def test_8(self):
+        # Reduction Half Reaction
+        # TODO: Reduction Half reaction equation
+        input_reduction_rxn = {'reagent': {'central_atom': 2, 'oxygen': 7, 'hydrogen': 0, 'charge': -2},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +3}}
+        input_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': -1},
+                               'product': {'central_atom': 2, 'oxygen': 0, 'hydrogen': 0, 'charge': 0}}
+
+        # Oxidation Half Reaction
+        # TODO: oxidation Half reaction equation
+        output_reduction_rxn = {'reagent': {'central_atom': 2, 'oxygen': 7, 'hydrogen': 14, 'charge': +12},
+                                'product': {'central_atom': 2, 'oxygen': 7, 'hydrogen': 14, 'charge': +6}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 6, 'oxygen': 0, 'hydrogen': 0, 'charge': -6},
+                                'product': {'central_atom': 6, 'oxygen': 0, 'hydrogen': 0, 'charge': 0}}
+
+        input_reduction_rxn = hcr.balance_acid(input_reduction_rxn)
+        input_oxidation_rxn = hcr.balance_acid(input_oxidation_rxn)
+
+        (input_reduction_rxn, input_oxidation_rxn) = hcr.balance_electron(input_reduction_rxn, input_oxidation_rxn)
+
+        self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in acidic medium')
+        self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in acidic medium')
+
 
 class TestBalanceBasic(unittest.TestCase):
     # 1: NH3 + ClO¯ ---> N2H4 + Cl¯
