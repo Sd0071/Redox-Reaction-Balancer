@@ -33,15 +33,15 @@ class TestBalanceAcidic(unittest.TestCase):
         input_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 3, 'hydrogen': 0, 'charge': -1},
                                'product': {'central_atom': 1, 'oxygen': 1, 'hydrogen': 0, 'charge': 0}}
         # TODO: Reduction Half reaction equation
-        output_reduction_rxn = {'reagent': {'central_atom': 4, 'oxygen': 12, 'hydrogen': 16, 'charge': +16},
-                                'product': {'central_atom': 4, 'oxygen': 12, 'hydrogen': 16, 'charge': 0}}
+        output_reduction_rxn = {'reagent': {'central_atom': 16, 'oxygen': 48, 'hydrogen': 64, 'charge': +48},
+                                'product': {'central_atom': 16, 'oxygen': 48, 'hydrogen': 64, 'charge': 0}}
 
         # Oxidation Half Reaction
         input_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 2, 'charge': 0},
                                'product': {'central_atom': 8, 'oxygen': 0, 'hydrogen': 0, 'charge': 0}}
         # TODO: oxidation Half reaction equation
-        output_oxidation_rxn = {'reagent': {'central_atom': 8, 'oxygen': 0, 'hydrogen': 16, 'charge': 0},
-                                'product': {'central_atom': 8, 'oxygen': 0, 'hydrogen': 16, 'charge': +16}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 24, 'oxygen': 0, 'hydrogen': 48, 'charge': 0},
+                                'product': {'central_atom': 24, 'oxygen': 0, 'hydrogen': 48, 'charge': +48}}
 
         input_reduction_rxn = hcr.balance_acid(input_reduction_rxn)
         input_oxidation_rxn = hcr.balance_acid(input_oxidation_rxn)
