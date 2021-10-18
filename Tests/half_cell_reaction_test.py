@@ -244,3 +244,72 @@ class TestBalanceBasic(unittest.TestCase):
 
         self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in basic medium')
         self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in basic medium')
+
+    # 3: AlH4¯ + H2CO ---> Al3+ + CH3OH
+    def test_3(self):
+        # Reduction Half Reaction
+        # TODO:
+        input_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 1, 'hydrogen': 2, 'charge': 0},
+                               'product': {'central_atom': 1, 'oxygen': 1, 'hydrogen': 4, 'charge': 0}}
+        output_reduction_rxn = {'reagent': {'central_atom': 4, 'oxygen': 12, 'hydrogen': 24, 'charge': 0},
+                                'product': {'central_atom': 4, 'oxygen': 12, 'hydrogen': 24, 'charge': -8}}
+        # Oxidation Half Reaction
+        # TODO:
+        input_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 4, 'charge': -1},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': +3}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 8, 'charge': -5},
+                                'product': {'central_atom': 1, 'oxygen': 4, 'hydrogen': 8, 'charge': +3}}
+
+        input_reduction_rxn = hcr.balance_base(input_reduction_rxn)
+        input_oxidation_rxn = hcr.balance_base(input_oxidation_rxn)
+
+        (input_reduction_rxn, input_oxidation_rxn) = hcr.balance_electron(input_reduction_rxn, input_oxidation_rxn)
+
+        self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in basic medium')
+        self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in basic medium')
+
+    # 4: Se + Cr(OH)3 ---> Cr + SeO3 2¯
+    def test_4(self):
+        # Reduction Half Reaction
+        # TODO:
+        input_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 3, 'hydrogen': 3, 'charge': 0},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': 0}}
+        output_reduction_rxn = {'reagent': {'central_atom': 4, 'oxygen': 24, 'hydrogen': 36, 'charge': 0},
+                                'product': {'central_atom': 4, 'oxygen': 24, 'hydrogen': 36, 'charge': -12}}
+        # Oxidation Half Reaction
+        # TODO:
+        input_oxidation_rxn = {'reagent': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': 0},
+                               'product': {'central_atom': 1, 'oxygen': 3, 'hydrogen': 0, 'charge': -2}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 3, 'oxygen': 27, 'hydrogen': 36, 'charge': -18},
+                                'product': {'central_atom': 3, 'oxygen': 27, 'hydrogen': 36, 'charge': -6}}
+
+        input_reduction_rxn = hcr.balance_base(input_reduction_rxn)
+        input_oxidation_rxn = hcr.balance_base(input_oxidation_rxn)
+
+        (input_reduction_rxn, input_oxidation_rxn) = hcr.balance_electron(input_reduction_rxn, input_oxidation_rxn)
+
+        self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in basic medium')
+        self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in basic medium')
+
+    # 5: N2H4 + Cu(OH)2 ---> N2 + Cu
+    def test_5(self):
+        # Reduction Half Reaction
+        # TODO:
+        input_reduction_rxn = {'reagent': {'central_atom': 1, 'oxygen': 2, 'hydrogen': 2, 'charge': 0},
+                               'product': {'central_atom': 1, 'oxygen': 0, 'hydrogen': 0, 'charge': 0}}
+        output_reduction_rxn = {'reagent': {'central_atom': 2, 'oxygen': 8, 'hydrogen': 12, 'charge': 0},
+                                'product': {'central_atom': 2, 'oxygen': 8, 'hydrogen': 12, 'charge': -4}}
+        # Oxidation Half Reaction
+        # TODO:
+        input_oxidation_rxn = {'reagent': {'central_atom': 2, 'oxygen': 0, 'hydrogen': 4, 'charge': 0},
+                               'product': {'central_atom': 2, 'oxygen': 0, 'hydrogen': 0, 'charge': 0}}
+        output_oxidation_rxn = {'reagent': {'central_atom': 2, 'oxygen': 4, 'hydrogen': 8, 'charge': -4},
+                                'product': {'central_atom': 2, 'oxygen': 4, 'hydrogen': 8, 'charge': 0}}
+
+        input_reduction_rxn = hcr.balance_base(input_reduction_rxn)
+        input_oxidation_rxn = hcr.balance_base(input_oxidation_rxn)
+
+        (input_reduction_rxn, input_oxidation_rxn) = hcr.balance_electron(input_reduction_rxn, input_oxidation_rxn)
+
+        self.assertDictEqual(input_reduction_rxn, output_reduction_rxn, 'Reduction in basic medium')
+        self.assertDictEqual(input_oxidation_rxn, output_oxidation_rxn, 'Oxidation in basic medium')
