@@ -6,32 +6,53 @@ class Reaction:
 
 
 class Molecule:
-    def __init__(self, string,charge):
+    atoms = {}
+    central_atom = ''
+    charge = 0
+    coff = 0
+
+    def __init__(self, molecule, central_atom, charge, coff=1):
         atoms = {}
+        atom_regex = '(\D{1,2})(\d)'
+        atom_pattern = re.compile(atom_regex, re.UNICODE)
 
-        atoms_symbols = re.split('\d',string)
-        atoms_symbols = list(filter(None, atoms_symbols))
-        atoms_numbers = re.split('\D',string)
-        atoms_numbers = list(filter(None, atoms_numbers))
+        for atom in re.findall(atom_pattern, molecule):
+            (symbol, count) = atom
+            # print(symbol, count)
+            atoms[symbol] = int(count)
 
-        for i in range(len(atoms_symbols)):
-            atoms[atoms_symbols[i]] = atoms_numbers[i]
-        
+        # print(atoms)
         self.atoms = atoms
+        self.central_atom = central_atom
         self.charge = charge
-    
-    # TODO: Find center
-    # def find_center():
+        self.coff = coff
+
+    def get_atom(self, atom):
+        return self.atoms[atom] * self.coff if atom in self.atoms else 0
+
+    def get_central_atom(self):
+        return self.atoms[self.central_atom] * self.coff
+
+    def get_charge(self):
+        return self.charge * self.coff
+
+    def set_atom(self, atom, num):
+        if num <= 0:
+            del self.atoms[atom]
+        else:
+            self.atoms[atom] = num
 
 
-# molecule = Molecule("Mn1O4",-2)
+def print_rxn(reaction, extra=''):
+    for side in reaction:
+        for molecule in reaction[side]:
+            print(molecule.coff,  sep='', end='')
 
-# ClO3¯ + SO2 ---> SO42¯ + Cl¯
-reaction = [Molecule('Cl1O3',-1),Molecule('S1O2',0)]
-# molecule = Molecule("Cr2O7",-2)
+            for atom in molecule.atoms:
+                print(atom, '(', molecule.atoms[atom], ')', sep='', end='')
 
-for molecule in reaction:
-    for atom in molecule.atoms:
-        print(atom,'(',molecule.atoms[atom],')',sep='',end='')
+            print('[', molecule.charge, ']', ' + ',  sep='', end='')
 
-    print('(',molecule.charge,')',sep='')
+        print('\b\b\b', ' ---> ', end='')
+
+    print('\b\b\b\b\b\b', extra)

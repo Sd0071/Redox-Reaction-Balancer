@@ -1,120 +1,103 @@
 import numpy as np
+from molecule_identifier import Molecule
 
 
 def balance_acid(reaction):
-    (reagent, product) = (reaction['reagent'], reaction['product'])
+    (reactant, product) = (reaction['reactant'], reaction['product'])
     # Balancing Central Atom Start
-    lcm = np.lcm(reagent['central_atom'], product['central_atom'])
-    multiplier = [lcm / reagent['central_atom'], lcm / product['central_atom']]
+    lcm = np.lcm(reactant[0].get_central_atom(), product[0].get_central_atom())
+    multiplier = {'reactant': int(lcm / reactant[0].get_central_atom()), 'product': int(lcm / product[0].get_central_atom())}
 
-    for i in reagent:
-        reagent[i] = int(reagent[i] * multiplier[0])
-        product[i] = int(product[i] * multiplier[1])
+    for i in range(len(reactant)):
+        reactant[i].coff *= multiplier['reactant']
+        product[i].coff *= multiplier['product']
+
     # Balancing Central Atom End
-    # print(reagent,product)
+    # print(reactant, product)
 
     # Balancing Oxygen Atom Start
-    water_added = reagent['oxygen'] - product['oxygen']
+    water_added = sum(elem.get_atom('O') for elem in reactant) - sum(elem.get_atom('O') for elem in product)
     # print(water_added)
-    oxygen_added = abs(water_added)
-    hydrogen_added = abs(water_added)*2
     if water_added < 0:
-        reagent['oxygen'] += oxygen_added
-        reagent['hydrogen'] += hydrogen_added
-    else:
-        product['oxygen'] += oxygen_added
-        product['hydrogen'] += hydrogen_added
+        reactant.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+    elif water_added > 0:
+        product.append(Molecule('H2O1', 'O', 0, abs(water_added)))
     # Balancing Oxygen Atom End
-    # print(reagent,product)
+    # print(reactant, product)
 
     # Balancing Hydrogen Atom Start
-    hydrogen_ion_added = reagent['hydrogen'] - product['hydrogen']
-    # print(hydrogen_ion_added)
-    hydrogen_added = abs(hydrogen_ion_added)
-    charge_added = abs(hydrogen_ion_added)
-    if hydrogen_ion_added < 0:
-        reagent['hydrogen'] += hydrogen_added
-        reagent['charge'] += charge_added
-    else:
-        product['hydrogen'] += hydrogen_added
-        product['charge'] += charge_added
+    hydrogen_added = sum(elem.get_atom('H') for elem in reactant) - sum(elem.get_atom('H') for elem in product)
+    # print(hydrogen_added)
+    if hydrogen_added < 0:
+        reactant.append(Molecule('H1', 'H', +1, abs(hydrogen_added)))
+    elif hydrogen_added > 0:
+        product.append(Molecule('H1', 'H', +1, abs(hydrogen_added)))
     # Balancing Oxygen Atom End
-    # print(reagent,product)
+    # print(reactant, product)
 
-    return {'reagent': reagent, 'product': product}
+    return {'reactant': reactant, 'product': product}
 
 
 def balance_base(reaction):
-    (reagent, product) = (reaction['reagent'], reaction['product'])
+    (reactant, product) = (reaction['reactant'], reaction['product'])
     # Balancing Central Atom Start
-    lcm = np.lcm(reagent['central_atom'], product['central_atom'])
-    multiplier = [lcm / reagent['central_atom'], lcm / product['central_atom']]
+    lcm = np.lcm(reactant[0].get_central_atom(), product[0].get_central_atom())
+    multiplier = {'reactant': int(lcm / reactant[0].get_central_atom()), 'product': int(lcm / product[0].get_central_atom())}
 
-    for i in reagent:
-        reagent[i] = int(reagent[i] * multiplier[0])
-        product[i] = int(product[i] * multiplier[1])
+    for i in range(len(reactant)):
+        reactant[i].coff *= multiplier['reactant']
+        product[i].coff *= multiplier['product']
+
     # Balancing Central Atom End
+    # print(reactant, product)
 
     # Balancing Oxygen Atom Start
-    water_added = reagent['oxygen'] - product['oxygen']
+    water_added = sum(elem.get_atom('O') for elem in reactant) - sum(elem.get_atom('O') for elem in product)
     # print(water_added)
-    oxygen_added = abs(water_added)
-    hydrogen_added = abs(water_added) * 2
     if water_added < 0:
-        reagent['oxygen'] += oxygen_added
-        reagent['hydrogen'] += hydrogen_added
-    else:
-        product['oxygen'] += oxygen_added
-        product['hydrogen'] += hydrogen_added
+        reactant.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+    elif water_added > 0:
+        product.append(Molecule('H2O1', 'O', 0, abs(water_added)))
     # Balancing Oxygen Atom End
-    # print(reagent,product)
+    # print(reactant, product)
 
     # Balancing Hydrogen Atom Start
-    hydrogen_ion_added = reagent['hydrogen'] - product['hydrogen']
-    # print(hydrogen_ion_added)
-    hydrogen_added = abs(hydrogen_ion_added)
-    charge_added = abs(hydrogen_ion_added)
+    water_added = sum(elem.get_atom('H') for elem in reactant) - sum(elem.get_atom('H') for elem in product)
+    # print(water_added)
+    if water_added < 0:
+        reactant.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+    elif water_added > 0:
+        product.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+    # Balancing Oxygen Atom End
+    # print(reactant, product)
 
-    if hydrogen_ion_added < 0:
-        reagent['hydrogen'] += hydrogen_added
-        reagent['charge'] += charge_added
-    else:
-        product['hydrogen'] += hydrogen_added
-        product['charge'] += charge_added
-    # Balancing Hydrogen Atom End
-    # print(reagent,product)
-
+    hydroxide_added = water_added
+    # print(hydroxide_added)
     # Coverting to base medium
-    hydroxide_ion_added = abs(hydrogen_ion_added)
+    if hydroxide_added < 0:
+        product.append(Molecule('O1H1', 'O', -1, abs(hydroxide_added)))
+    elif hydroxide_added > 0:
+        reactant.append(Molecule('O1H1', 'O', -1, abs(hydroxide_added)))
 
-    reagent['oxygen'] += hydroxide_ion_added
-    reagent['hydrogen'] += hydroxide_ion_added
-    reagent['charge'] -= hydroxide_ion_added
-
-    product['oxygen'] += hydroxide_ion_added
-    product['hydrogen'] += hydroxide_ion_added
-    product['charge'] -= hydroxide_ion_added
-
-    # print(reagent,product)
-    return {'reagent': reagent, 'product': product}
+    # print(reactant, product)
+    return {'reactant': reactant, 'product': product}
 
 
-def balance_electron(reduction_rxn, oxidation_rxn):
-    reduction_transferred_electron = abs(reduction_rxn['reagent']['charge'] - reduction_rxn['product']['charge'])
-    oxidation_transferred_electron = abs(oxidation_rxn['product']['charge'] - oxidation_rxn['reagent']['charge'])
+def balance_electron(red_rxn, ox_rxn):
+    reduction_transferred_electron = abs(sum(elem.get_charge() for elem in red_rxn['reactant']) - sum(elem.get_charge() for elem in red_rxn['product']))
+    oxidation_transferred_electron = abs(sum(elem.get_charge() for elem in ox_rxn['product']) - sum(elem.get_charge() for elem in ox_rxn['reactant']))
 
     # print(reduction_transferred_electron, oxidation_transferred_electron)
     total_transferred_electron = np.lcm(reduction_transferred_electron, oxidation_transferred_electron)
+    multiplier = {'red': int(total_transferred_electron / reduction_transferred_electron), 'ox': int(total_transferred_electron / oxidation_transferred_electron)}
 
-    for i in reduction_rxn['reagent']:
-        reduction_multiplier = int(total_transferred_electron / reduction_transferred_electron)
-        reduction_rxn['reagent'][i] *= reduction_multiplier
-        reduction_rxn['product'][i] *= reduction_multiplier
+    for i in range(len(red_rxn['reactant'])):
+        red_rxn['reactant'][i].coff *= multiplier['red']
+        red_rxn['product'][i].coff *= multiplier['red']
 
-        oxidation_multiplier = int(total_transferred_electron / oxidation_transferred_electron)
-        oxidation_rxn['reagent'][i] *= oxidation_multiplier
-        oxidation_rxn['product'][i] *= oxidation_multiplier
+        ox_rxn['reactant'][i].coff *= multiplier['ox']
+        ox_rxn['product'][i].coff *= multiplier['ox']
 
-    # print(reduction_rxn)
-    # print(oxidation_rxn)
-    return (reduction_rxn, oxidation_rxn)
+    # print(red_rxn)
+    # print(ox_rxn)
+    return (red_rxn, ox_rxn)
