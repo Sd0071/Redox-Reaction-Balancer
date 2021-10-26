@@ -93,9 +93,14 @@ def balance_electron(red_rxn, ox_rxn):
 
     for i in range(len(red_rxn['reactant'])):
         red_rxn['reactant'][i].coff *= multiplier['red']
+
+    for i in range(len(red_rxn['product'])):
         red_rxn['product'][i].coff *= multiplier['red']
 
+    for i in range(len(ox_rxn['reactant'])):
         ox_rxn['reactant'][i].coff *= multiplier['ox']
+
+    for i in range(len(ox_rxn['product'])):
         ox_rxn['product'][i].coff *= multiplier['ox']
 
     # print(red_rxn)
