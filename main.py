@@ -1,4 +1,4 @@
-from molecule_identifier import Molecule, print_rxn
+from molecule_identifier import Molecule, merge_molecule, print_rxn
 from half_cell_reaction import balance_acid, balance_base, balance_electron
 
 # ClO3¯ + SO2 ---> SO42¯ + Cl¯
@@ -48,3 +48,4 @@ print_rxn(red_rxn)
 print_rxn(ox_rxn, '\n')
 
 # TODO: Cancellation
+merge_molecule()

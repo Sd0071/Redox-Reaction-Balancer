@@ -1,16 +1,9 @@
 import re
 
-""" TODO: Add later
-class Reaction:
-    def __init__(self): """
+
 
 
 class Molecule:
-    atoms = {}
-    central_atom = ''
-    charge = 0
-    coff = 0
-
     def __init__(self, molecule, central_atom, charge, coff=1):
         atoms = {}
         atom_regex = '(\D{1,2})(\d)'
@@ -22,6 +15,7 @@ class Molecule:
             atoms[symbol] = int(count)
 
         # print(atoms)
+        self.molecule = molecule
         self.atoms = atoms
         self.central_atom = central_atom
         self.charge = charge
@@ -36,11 +30,27 @@ class Molecule:
     def get_charge(self):
         return self.charge * self.coff
 
+    # UPDATE: From ionic to covalent
     def set_atom(self, atom, num):
         if num <= 0:
             del self.atoms[atom]
         else:
             self.atoms[atom] = num
+
+""" class Reaction:
+    def __init__(self): """
+def merge_molecule(reaction):
+    # merge molecule of same side
+    for side in reaction:
+        for i in range(len(side)):
+            for j in i:
+                if side[i].molecule == side[j].molecule:
+                    print(side[i].molecule, side[j].molecule)
+                    # side[j].coff += side[i].coff
+                    # del side[i]
+
+
+# def merge_rxn(reaction):
 
 
 def print_rxn(reaction, extra=''):
