@@ -71,15 +71,12 @@ def merge_rxn(red_rxn, ox_rxn):
     reaction = {'reactant': [*red_rxn['reactant'], *ox_rxn['reactant']],
                 'product': [*red_rxn['product'], *ox_rxn['product']]}
 
-    print_rxn(reaction)
-
     for r in range(len(reaction['reactant'])):
         for p in range(len(reaction['product'])):
             if reaction['reactant'][r].molecule == reaction['product'][p].molecule:
                 if reaction['reactant'][r].coff == 0 | reaction['product'][p].coff == 0:
                     continue
-
-                if reaction['reactant'][r].coff > reaction['product'][p].coff:
+                elif reaction['reactant'][r].coff > reaction['product'][p].coff:
                     reaction['reactant'][r].coff -= reaction['product'][p].coff
                     reaction['product'][p].coff = 0
                 elif reaction['reactant'][r].coff < reaction['product'][p].coff:
