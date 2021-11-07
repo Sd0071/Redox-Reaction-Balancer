@@ -30,12 +30,16 @@ class Molecule:
     def get_charge(self):
         return self.charge * self.coff
 
+    def get_os(self):
+        return (self.get_atom("H")*(-1)+self.get_atom("O")*(+2))/self.get_central_atom()
+
     # UPDATE: From ionic to covalent
     def set_atom(self, atom, num):
         if num <= 0:
             del self.atoms[atom]
         else:
             self.atoms[atom] = num
+    
 
 """ class Reaction:
     def __init__(self): """
@@ -49,6 +53,22 @@ def merge_molecule(reaction):
                     # side[j].coff += side[i].coff
                     # del side[i]
 
+def redox_identify(reaction):
+    
+    red_rxn = {"reactant" : [],"product" : []}
+    ox_rxn = {"reactant" : [],"product" : []}
+    
+    for reactant in reaction['reactant']:
+        for product in reaction['product']:
+            
+            if reactant.central_atom == product.central_atom:
+                if reactant.get_os()>product.get_os():
+                    red_rxn['reactant'].append(reactant)
+                    red_rxn['product'].append(product)
+                else :
+                    ox_rxn['reactant'].append(reactant)
+                    ox_rxn['product'].append(product)
+    return (red_rxn,ox_rxn)
 
 # def merge_rxn(reaction):
 
