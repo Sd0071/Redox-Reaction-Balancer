@@ -19,9 +19,9 @@ def balance_acid(reaction):
     water_added = sum(elem.get_atom('O') for elem in reactant) - sum(elem.get_atom('O') for elem in product)
     # print(water_added)
     if water_added < 0:
-        reactant.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+        reactant.append(Molecule('H2O1', 0, abs(water_added)))
     elif water_added > 0:
-        product.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+        product.append(Molecule('H2O1', 0, abs(water_added)))
     # Balancing Oxygen Atom End
     # print(reactant, product)
 
@@ -29,9 +29,9 @@ def balance_acid(reaction):
     hydrogen_added = sum(elem.get_atom('H') for elem in reactant) - sum(elem.get_atom('H') for elem in product)
     # print(hydrogen_added)
     if hydrogen_added < 0:
-        reactant.append(Molecule('H1', 'H', +1, abs(hydrogen_added)))
+        reactant.append(Molecule('H1', +1, abs(hydrogen_added)))
     elif hydrogen_added > 0:
-        product.append(Molecule('H1', 'H', +1, abs(hydrogen_added)))
+        product.append(Molecule('H1', +1, abs(hydrogen_added)))
     # Balancing Oxygen Atom End
     # print(reactant, product)
 
@@ -55,9 +55,9 @@ def balance_base(reaction):
     water_added = sum(elem.get_atom('O') for elem in reactant) - sum(elem.get_atom('O') for elem in product)
     # print(water_added)
     if water_added < 0:
-        reactant.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+        reactant.append(Molecule('H2O1', 0, abs(water_added)))
     elif water_added > 0:
-        product.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+        product.append(Molecule('H2O1', 0, abs(water_added)))
     # Balancing Oxygen Atom End
     # print(reactant, product)
 
@@ -65,9 +65,9 @@ def balance_base(reaction):
     water_added = sum(elem.get_atom('H') for elem in reactant) - sum(elem.get_atom('H') for elem in product)
     # print(water_added)
     if water_added < 0:
-        reactant.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+        reactant.append(Molecule('H2O1', 0, abs(water_added)))
     elif water_added > 0:
-        product.append(Molecule('H2O1', 'O', 0, abs(water_added)))
+        product.append(Molecule('H2O1', 0, abs(water_added)))
     # Balancing Oxygen Atom End
     # print(reactant, product)
 
@@ -75,9 +75,9 @@ def balance_base(reaction):
     # print(hydroxide_added)
     # Coverting to base medium
     if hydroxide_added < 0:
-        product.append(Molecule('O1H1', 'O', -1, abs(hydroxide_added)))
+        product.append(Molecule('O1H1', -1, abs(hydroxide_added)))
     elif hydroxide_added > 0:
-        reactant.append(Molecule('O1H1', 'O', -1, abs(hydroxide_added)))
+        reactant.append(Molecule('O1H1', -1, abs(hydroxide_added)))
 
     # print(reactant, product)
     return {'reactant': reactant, 'product': product}
