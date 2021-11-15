@@ -3,7 +3,7 @@ import atomic_symbols
 
 
 class Molecule:
-    def __init__(self, molecule, charge, coff=1):
+    def __init__(self, molecule: str, charge: int, coff: int = 1):
         atoms = {}
         atom_regex = '(\D{1,2})(\d)'
         atom_pattern = re.compile(atom_regex, re.UNICODE)
@@ -23,11 +23,11 @@ class Molecule:
         self.charge = charge
         self.coff = int(coff)
 
-    def get_atom(self, atom):
+    def get_atom(self, atom: str):
         return self.atoms[atom] * self.coff if atom in self.atoms else 0
 
     # UPDATE: Conversion from ionic to covalent
-    def set_atom(self, atom, num):
+    def set_atom(self, atom: str, num: int):
         if num <= 0:
             del self.atoms[atom]
         else:
@@ -37,7 +37,7 @@ class Molecule:
         return self.atoms[self.central_atom] * self.coff
 
     def get_charge(self):
-        return self.charge * self.coff
+        return int(self.charge * self.coff)
 
     # UPDATE: Properly find Oxidation State
     def get_os(self):
@@ -45,7 +45,7 @@ class Molecule:
 
 
 class Reaction:
-    def __init__(self, reactant='', product=''):
+    def __init__(self, reactants: str = '', products: str = ''):
         def parse_side(reaction):
             molecules = {}
             molecule_regex = '\((.+?)\)(.+?)\[(.+?)\]'
@@ -57,10 +57,10 @@ class Reaction:
 
             return molecules
 
-        self.reactant = parse_side(reactant)
-        self.product = parse_side(product)
+        self.reactants = parse_side(reactants)
+        self.products = parse_side(products)
 
-    def print_rxn(self, before='', after=''):
+    def print_rxn(self, before: str = '', after: str = ''):
         def print_side(side):
             for symbol in side:
                 molecule = side[symbol]
@@ -73,17 +73,21 @@ class Reaction:
                 print('[', molecule.charge, ']', ' + ',  sep='', end='')
 
         print(before, end='')
-        print_side(self.reactant)
+        print_side(self.reactants)
         print('\b\b\b', ' ---> ', end='')
 
-        print_side(self.product)
+        print_side(self.products)
         print(after, '\n')
 
-    def add_molecule(self, symbol, charge, coff=1):
+    def get_side(self, side: str):
+        side: dict = self.reactants if side == 'reactant' else self.products
+        return list(side.values())
+
+    def add_molecule(self, symbol: str, charge: int, coff: int = 1):
         # Positive Coff means in reactant side
         # Negative Coff means in product side
-        same_side = self.reactant if coff >= 0 else self.product
-        opp_side = self.reactant if coff < 0 else self.product
+        same_side = self.reactants if coff >= 0 else self.products
+        opp_side = self.reactants if coff < 0 else self.products
         coff = -abs(coff)
         # Adding to the opposite side with negative sign
         if symbol in opp_side:
@@ -111,21 +115,28 @@ class Reaction:
         coff = 0
         same_side.pop(symbol)
 
-    def remove_molecule(self, symbol, coff):
-        if symbol in self.reactant:
-            self.reactant.pop(symbol)
+    def remove_molecule(self, symbol: str, coff: int = 0):
+        if coff > 0:
+            if symbol in self.reactants:
+                self.reactants[symbol].coff -= min(self.reactants[symbol].coff, abs(coff))
+        elif coff < 0:
+            if symbol in self.products:
+                self.products[symbol].coff -= min(self.products[symbol].coff, abs(coff))
+        else:
+            if symbol in self.reactants:
+                self.reactants.pop(symbol)
 
-        if symbol in self.product:
-            self.product.pop(symbol)
+            if symbol in self.products:
+                self.products.pop(symbol)
 
     def split_rxn(self):
         reduction_reaction = Reaction()
         oxidation_reaction = Reaction()
 
-        for reactant_symbol in self.reactant:
-            for product_symbol in self.product:
-                reactant = self.reactant[reactant_symbol]
-                product = self.product[product_symbol]
+        for reactant_symbol in self.reactants:
+            for product_symbol in self.products:
+                reactant = self.reactants[reactant_symbol]
+                product = self.products[product_symbol]
 
                 if reactant.central_atom == product.central_atom:
                     if reactant.get_os() > product.get_os():
@@ -145,7 +156,7 @@ class Reaction:
                 molecule = side_rxn[molecule_symbol]
                 self.add_molecule(molecule_symbol, molecule.charge, side * molecule.coff)
 
-        merge_side('reactant', reaction.reactant)
-        merge_side('product', reaction.product)
+        merge_side('reactant', reaction.reactants)
+        merge_side('product', reaction.products)
 
         return self
