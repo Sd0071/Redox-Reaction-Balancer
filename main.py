@@ -12,7 +12,7 @@ from molecule_identifier import Reaction
 # reaction = Reaction('(1)Cl2[0]', '(1)Cl1O1[-1] + (1)Cl1[-1]')
 
 # H2O2 ---> H2O + O2
-reaction = Reaction('(1)H2O2[0]', '(1)H2O1[0] + (1)O2[0]')
+# reaction = Reaction('(1)H2O2[0]', '(1)H2O1[0] + (1)O2[0]')
 
 # NH3 + ClO¯ ---> N2H4 + Cl¯
 reaction = Reaction('(1)N1H3[0] + (1)Cl1O1[-1]', '(1)N2H4[0] + (1)Cl1[-1]')
