@@ -1,5 +1,5 @@
 import re
-import atomic_symbols
+from . import atomic_symbols
 
 
 class Molecule:
@@ -81,7 +81,7 @@ class Reaction:
         print(after, '\n')
 
     def get_side(self, side: str):
-        side: dict = self.reactants if side == 'reactant' else self.products
+        side = self.reactants if side == 'reactant' else self.products
         return list(side.values())
 
     def add_molecule(self, symbol: str, charge: int, coff: int = 1):

@@ -1,8 +1,8 @@
 import numpy as np
-from molecule_identifier import Reaction
+from .molecule_identifier import Reaction
 
 
-def balance_acid(reaction: Reaction):
+def balance_medium(reaction: Reaction, medium: str):
     # Balancing Central Atom Start
     lcm = np.lcm(reaction.get_side('reactant')[0].get_central_atom(), reaction.get_side('product')[0].get_central_atom())
     multiplier = {'reactant': int(lcm / reaction.get_side('reactant')[0].get_central_atom()), 'product': int(lcm / reaction.get_side('product')[0].get_central_atom())}
@@ -21,47 +21,26 @@ def balance_acid(reaction: Reaction):
     # Balancing Oxygen Atom End
     # print(reactant, product)
 
-    # Balancing Hydrogen Atom Start
-    hydrogen_added = sum(molecule.get_atom('H') for molecule in reaction.get_side('reactant')) - sum(elem.get_atom('H') for elem in reaction.get_side('product'))
-    # print(hydrogen_added)
-    reaction.add_molecule('H1', +1, -hydrogen_added)
-    # Balancing Oxygen Atom End
-    # print(reactant, product)
+    if medium == 'acid':
+        # Balancing Hydrogen Atom Start
+        hydrogen_added = sum(molecule.get_atom('H') for molecule in reaction.get_side('reactant')) - sum(elem.get_atom('H') for elem in reaction.get_side('product'))
+        # print(hydrogen_added)
+        reaction.add_molecule('H1', +1, -hydrogen_added)
+        # Balancing Oxygen Atom End
+        # print(reactant, product)
+    else:
+        # Balancing Hydrogen Atom Start
+        water_added = sum(molecule.get_atom('H') for molecule in reaction.get_side('reactant')) - sum(elem.get_atom('H') for elem in reaction.get_side('product'))
+        # print(water_added)
+        reaction.add_molecule('H2O1', 0, -water_added)
+        # Balancing Hydrogen Atom End
+        # print(reactant, product)
 
-    return reaction
-
-
-def balance_base(reaction: Reaction):
-    # Balancing Central Atom Start
-    lcm = np.lcm(reaction.get_side('reactant')[0].get_central_atom(), reaction.get_side('product')[0].get_central_atom())
-    multiplier = {'reactant': int(lcm / reaction.get_side('reactant')[0].get_central_atom()), 'product': int(lcm / reaction.get_side('product')[0].get_central_atom())}
-
-    for molecule in reaction.reactants:
-        reaction.reactants[molecule].coff *= multiplier['reactant']
-    for molecule in reaction.products:
-        reaction.products[molecule].coff *= multiplier['product']
-    # Balancing Central Atom End
-    # print(reactant, product)
-
-    # Balancing Oxygen Atom Start
-    water_added = sum(molecule.get_atom('O') for molecule in reaction.get_side('reactant')) - sum(elem.get_atom('O') for elem in reaction.get_side('product'))
-    # print(water_added)
-    reaction.add_molecule('H2O1', 0, -water_added)
-    # Balancing Oxygen Atom End
-    # print(reactant, product)
-
-    # Balancing Hydrogen Atom Start
-    water_added = sum(molecule.get_atom('H') for molecule in reaction.get_side('reactant')) - sum(elem.get_atom('H') for elem in reaction.get_side('product'))
-    # print(water_added)
-    reaction.add_molecule('H2O1', 0, -water_added)
-    # Balancing Hydrogen Atom End
-    # print(reactant, product)
-
-    # Coverting to base medium
-    hydroxide_added = water_added
-    # print(hydroxide_added)
-    reaction.add_molecule('O1H1', -1, hydroxide_added)
-    # print(reactant, product)
+        # Coverting to base medium
+        hydroxide_added = water_added
+        # print(hydroxide_added)
+        reaction.add_molecule('O1H1', -1, hydroxide_added)
+        # print(reactant, product)
 
     return reaction
 

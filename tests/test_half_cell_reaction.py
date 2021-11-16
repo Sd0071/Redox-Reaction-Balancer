@@ -1,5 +1,5 @@
 import unittest
-import half_cell_reaction as hcr
+import lib.half_cell_reaction as hcr
 
 
 class TestBalanceAcidic(unittest.TestCase):
