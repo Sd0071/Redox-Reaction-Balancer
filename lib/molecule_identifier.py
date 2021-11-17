@@ -3,7 +3,11 @@ from . import atomic_symbols
 
 
 class Molecule:
-    def __init__(self, molecule: str, charge: int, coff: int = 1):
+    def __init__(self, molecule: str, coff: int = 1):
+        molecule_regex = '(.+?)\[(.+?)\]'
+        molecule_pattern = re.compile(molecule_regex, re.UNICODE)
+        (molecule, charge) = re.match(molecule_pattern, molecule).groups()
+
         atoms = {}
         atom_regex = '(\D{1,2})(\d)'
         atom_pattern = re.compile(atom_regex, re.UNICODE)
@@ -20,7 +24,7 @@ class Molecule:
 
         self.atoms = atoms
         self.central_atom = atomic_symbols.symbols[central_atom_index]
-        self.charge = charge
+        self.charge = int(charge)
         self.coff = int(coff)
 
     def get_atom(self, atom: str):
@@ -37,34 +41,30 @@ class Molecule:
         return self.atoms[self.central_atom] * self.coff
 
     def get_charge(self):
-        return int(self.charge * self.coff)
+        return self.charge * self.coff
 
     # UPDATE: Properly find Oxidation State
     def get_os(self):
-        total_charge = int(self.charge)
-        ligand_charge = (self.get_atom('H')*(+1)+self.get_atom('O')*(-2)+self.get_atom('S')*(-2))
-        return (total_charge-(ligand_charge))/self.get_central_atom()
+        total_charge = self.charge
+        ligand_charge = (self.get_atom('H')*(+1) + self.get_atom('O')*(-2) + self.get_atom('S')*(-2))
+        return (total_charge - ligand_charge) / self.get_central_atom()
 
 
 class Reaction:
     def __init__(self, reactants: str = '', products: str = ''):
-        # print(reactants,products)
-        
         def parse_side(reaction):
             molecules = {}
-            molecule_regex = '\((.+?)\)(.+?)\[(.+?)\]'
+            molecule_regex = '\((.+?)\)(.+?\])'
             molecule_pattern = re.compile(molecule_regex)
 
             for molecule in re.findall(molecule_pattern, reaction):
-                (coff, symbol, charge) = molecule
-                molecules[symbol] = Molecule(symbol, charge, coff)
+                (coff, symbol) = molecule
+                molecules[symbol] = Molecule(symbol, coff)
 
             return molecules
 
         self.reactants = parse_side(reactants)
-        print('on line 65',self.reactants)
         self.products = parse_side(products)
-        print('on line 67',self.reactants)
 
     def print_rxn(self, before: str = '', after: str = ''):
         def print_side(side):
@@ -87,12 +87,10 @@ class Reaction:
         print(after, '\n')
 
     def get_side(self, side: str):
-        print('on 89',self.reactants)
-        print('on 90',self.products)
-        side = self.reactants if side == 'reactant' else self.products       
+        side = self.reactants if side == 'reactant' else self.products
         return list(side.values())
 
-    def add_molecule(self, symbol: str, charge: int, coff: int = 1):
+    def add_molecule(self, symbol: str, coff: int = 1):
         # Positive Coff means in reactant side
         # Negative Coff means in product side
         same_side = self.reactants if coff >= 0 else self.products
@@ -102,7 +100,7 @@ class Reaction:
         if symbol in opp_side:
             opp_side[symbol].coff += coff
         else:
-            opp_side[symbol] = Molecule(symbol, charge, coff)
+            opp_side[symbol] = Molecule(symbol, coff)
 
         # Removing form the opposite side if needed
         if opp_side[symbol].coff > 0:
@@ -115,7 +113,7 @@ class Reaction:
         if symbol in same_side:
             same_side[symbol].coff += coff
         else:
-            same_side[symbol] = Molecule(symbol, charge, coff)
+            same_side[symbol] = Molecule(symbol, coff)
 
         # Removing form the same side if needed
         if same_side[symbol].coff > 0:
@@ -149,13 +147,12 @@ class Reaction:
 
                 if reactant.central_atom == product.central_atom:
                     if reactant.get_os() > product.get_os():
-                        reduction_reaction.add_molecule(reactant_symbol, reactant.charge, reactant.coff)
-                        reduction_reaction.add_molecule(product_symbol, product.charge, -product.coff)
+                        reduction_reaction.add_molecule(reactant_symbol, reactant.coff)
+                        reduction_reaction.add_molecule(product_symbol, -product.coff)
                     else:
-                        oxidation_reaction.add_molecule(reactant_symbol, reactant.charge, reactant.coff)
-                        oxidation_reaction.add_molecule(product_symbol, product.charge, -product.coff)
-                reduction_reaction.print_rxn('reduction_reaction')
-                oxidation_reaction.print_rxn('tion_reaction')
+                        oxidation_reaction.add_molecule(reactant_symbol, reactant.coff)
+                        oxidation_reaction.add_molecule(product_symbol, -product.coff)
+
         return (reduction_reaction, oxidation_reaction)
 
     def merge_rxn(self, reaction):
@@ -164,7 +161,7 @@ class Reaction:
 
             for molecule_symbol in side_rxn:
                 molecule = side_rxn[molecule_symbol]
-                self.add_molecule(molecule_symbol, molecule.charge, side * molecule.coff)
+                self.add_molecule(molecule_symbol, side * molecule.coff)
 
         merge_side('reactant', reaction.reactants)
         merge_side('product', reaction.products)

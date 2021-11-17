@@ -3,10 +3,12 @@ from lib.molecule_identifier import Reaction
 
 
 def main():
+    # Zn + Cu2+ ---> Zn2+ + Cu
+    reaction = Reaction('(1)Zn1[0] + (1)Cu1[+2]', '(1)Zn1[+2] + (1)Cu1[0]')
+
     # As2S5(s) + NO3¯(aq) ---> H3AsO4(aq) + HSO4¯(aq) + NO2(g)
     # reaction = Reaction('(1)As2S5[0] + (1)N1O3[-1]', '(1)H3As1O4[0] + (1)H1S1O4[-1] + (1)N1O2[0]')
-    reaction = Reaction('(1)Zn1[0] + (1)Cu1[+2]', '(1)Zn1[+2] + (1)Cu1[0]')
-    
+
     # ClO3¯ + SO2 ---> SO42¯ + Cl¯
     # reaction = Reaction('(1)Cl1O3[-1] + (1)S1O2[0]', '(1)S1O4[-2] + (1)Cl1[-1]')
 

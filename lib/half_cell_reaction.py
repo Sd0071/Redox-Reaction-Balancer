@@ -17,7 +17,7 @@ def balance_medium(reaction: Reaction, medium: str):
     # Balancing Oxygen Atom Start
     water_added = sum(molecule.get_atom('O') for molecule in reaction.get_side('reactant')) - sum(elem.get_atom('O') for elem in reaction.get_side('product'))
     # print(water_added)
-    reaction.add_molecule('H2O1', 0, -water_added)
+    reaction.add_molecule('H2O1[0]', -water_added)
     # Balancing Oxygen Atom End
     # print(reactant, product)
 
@@ -25,21 +25,21 @@ def balance_medium(reaction: Reaction, medium: str):
         # Balancing Hydrogen Atom Start
         hydrogen_added = sum(molecule.get_atom('H') for molecule in reaction.get_side('reactant')) - sum(elem.get_atom('H') for elem in reaction.get_side('product'))
         # print(hydrogen_added)
-        reaction.add_molecule('H1', +1, -hydrogen_added)
+        reaction.add_molecule('H1[+1]', -hydrogen_added)
         # Balancing Oxygen Atom End
         # print(reactant, product)
     else:
         # Balancing Hydrogen Atom Start
         water_added = sum(molecule.get_atom('H') for molecule in reaction.get_side('reactant')) - sum(elem.get_atom('H') for elem in reaction.get_side('product'))
         # print(water_added)
-        reaction.add_molecule('H2O1', 0, -water_added)
+        reaction.add_molecule('H2O1[0]', -water_added)
         # Balancing Hydrogen Atom End
         # print(reactant, product)
 
         # Coverting to base medium
         hydroxide_added = water_added
         # print(hydroxide_added)
-        reaction.add_molecule('O1H1', -1, hydroxide_added)
+        reaction.add_molecule('O1H1[-1]', hydroxide_added)
         # print(reactant, product)
 
     return reaction
