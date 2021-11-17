@@ -4,7 +4,7 @@
 
 # Redox Reaction Balancer
 
-A python project to Balance any Redox Reaction
+A python project to balance most of the Redox reactions. This project is still in progress and we are trying to cover all type of Redox reactions.
 
 ## **Get Started**
 
@@ -40,8 +40,8 @@ To get the balanced reaction you have to use a function called **balance_medium(
 
 ### **Balance the Electrons**
 
-To balance the electron you have to use a function called **balance_electron()**. Which takes two parameter called **red_rxn** and **ox_rxn**. It balances the electron and returns the two balanced reaction in a tuple.
+To balance the electrons you have to use a function called **balance_electron()**. Which takes two parameter called **red_rxn** and **ox_rxn**. It balances the electron and returns the two balanced reaction in a tuple.
 
 ### **Merge the Reaction**
 
-To get the final balanced reaction you have to use a method called **merge_rxn()** on Reaction class. You can use the method on either the Reduction Reaction or Oxidation Reaction and you provide the other reaction as parameter. It will merge the reaction and perform cancellation on both side if it is possible, and return the merge reaction.
+To get the final balanced reaction you have to use a method called **merge_rxn()** on Reaction class. You can use the method on either the Reduction Reaction or Oxidation Reaction and you provide the other reaction as parameter. It will merge the reaction and perform cancellation on both side if it is possible, and return the merged reaction.
