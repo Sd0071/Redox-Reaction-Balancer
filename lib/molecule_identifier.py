@@ -83,7 +83,7 @@ class Reaction:
         print('\b\b\b', ' ---> ', end='')
 
         print_side(self.products)
-        print('\b\b', '      ', end='')
+        print('\b\b\b', '      ', end='')
         print(after, '\n')
 
     def get_side(self, side: str):
