@@ -51,7 +51,9 @@ def balance_electron(red_rxn: Reaction, ox_rxn: Reaction):
 
     # print(reduction_transferred_electron, oxidation_transferred_electron)
     total_transferred_electron = np.lcm(reduction_transferred_electron, oxidation_transferred_electron)
+    # print(total_transferred_electron)
     multiplier = {'red': int(total_transferred_electron / reduction_transferred_electron), 'ox': int(total_transferred_electron / oxidation_transferred_electron)}
+    # print(multiplier)
 
     for molecule in red_rxn.reactants:
         red_rxn.reactants[molecule].coff *= multiplier['red']
@@ -60,10 +62,10 @@ def balance_electron(red_rxn: Reaction, ox_rxn: Reaction):
         red_rxn.products[molecule].coff *= multiplier['red']
 
     for molecule in ox_rxn.reactants:
-        ox_rxn.reactants[molecule].coff *= multiplier['red']
+        ox_rxn.reactants[molecule].coff *= multiplier['ox']
 
     for molecule in ox_rxn.products:
-        ox_rxn.products[molecule].coff *= multiplier['red']
+        ox_rxn.products[molecule].coff *= multiplier['ox']
 
     # print(red_rxn)
     # print(ox_rxn)
