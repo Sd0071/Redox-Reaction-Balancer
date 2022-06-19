@@ -3,8 +3,11 @@ from lib.molecule_identifier import Reaction
 
 
 def main():
+    # FeO2(s) + H2S(aq) --> Fe2+(aq) + SO42-(aq)
+    reaction = Reaction('(1)Fe1O2[0] + (1)H2S1[0]', '(1)Fe1[+2] + (1)S1O4[-2]')
+
     # Zn + Cu2+ ---> Zn2+ + Cu
-    reaction = Reaction('(1)Zn1[0] + (1)Cu1[+2]', '(1)Zn1[+2] + (1)Cu1[0]')
+    # reaction = Reaction('(1)Zn1[0] + (1)Cu1[+2]', '(1)Zn1[+2] + (1)Cu1[0]')
 
     # As2S5(s) + NO3¯(aq) ---> H3AsO4(aq) + HSO4¯(aq) + NO2(g)
     # reaction = Reaction('(1)As2S5[0] + (1)N1O3[-1]', '(1)H3As1O4[0] + (1)H1S1O4[-1] + (1)N1O2[0]')
